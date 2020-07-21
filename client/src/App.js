@@ -3,12 +3,17 @@ import Nav from './components/Nav/Nav';
 import LoginForm from './components/Forms/LoginForm/LoginForm';
 import SignupForm from './components/Forms/SignupForm/SignupForm';
 import {handleLogin, handleSignup, handleLogout} from './handlers/authHandlers';
+import MapContainer from './components/MapContainer/MapContainer';
+import ModalContainer from './components/ModalContainer/ModalContainer';
 
 function App() {
   const [displayedForm, setDisplayedForm] = useState('');
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false);
   const [username, setUsername] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
 
+  // Set JWT
   useEffect(() => {
     if (loggedIn) {
       fetch('http://localhost:8000/app/current_user', {
@@ -38,11 +43,23 @@ function App() {
     default:
       form = null;
   }
+  console.log('running');
   return (
     <div className="App">
-      <Nav loggedIn={loggedIn} displayForm={displayForm} handleLogout={handleLogout} setters={[setLoggedIn,setUsername]}/>
+      <ModalContainer 
+        showModal={showModal} 
+        setShowModal={setShowModal} 
+        modalContent={modalContent} 
+        setModalContent={setModalContent} 
+      />
+      <Nav 
+        loggedIn={loggedIn} displayForm={displayForm} 
+        handleLogout={handleLogout} setters={[setLoggedIn,setUsername]} 
+        setShowModal={setShowModal} setModalContent={setModalContent} username={username}
+      />
       {form}
-      <h3>{loggedIn ? `Hi ${username}` : 'Please Log In'}</h3>
+      {loggedIn ? <MapContainer showModal={showModal} setShowModal={setShowModal} setModalContent={setModalContent}/> 
+                : <h1>Please Log In...</h1>}
     </div>
   );
 }

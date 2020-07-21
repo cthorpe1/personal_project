@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
+from builtins import object
 
+#-------- Auth -------- #
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -33,3 +35,36 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('token', 'username', 'password')
+
+#-------- Markers -------- #
+class MarkerSerializer(object):
+    def __init__(self, body):
+        self.body = body
+
+    @property
+    def all_markers(self):
+        output = {'markers': []}
+
+        for marker in self.body:
+            marker_details = {
+                'id':marker.id,
+                'name': marker.name,
+                'lat': marker.lat,
+                'lng': marker.lng,
+                'details': marker.details
+                
+            }
+            output['markers'].append(marker_details)
+
+        return output
+
+    @property
+    def marker_detail(self):
+        detail_object = {
+            'id':self.body.id,
+            'name': self.body.name,
+            'lat': self.body.lat,
+            'lng': self.body.lng,
+            'details': self.body.details
+        }
+        return detail_object

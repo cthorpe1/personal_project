@@ -1,6 +1,5 @@
 export const handleLogin = (e,data, [setDisplayedForm,setUsername, setLoggedIn]) => {
   e.preventDefault();
-  console.log(setDisplayedForm);
   fetch('http://localhost:8000/token-auth/', {
     method: 'POST',
     headers: {

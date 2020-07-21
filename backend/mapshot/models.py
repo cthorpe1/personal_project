@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 class Marker(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='markers')
     name = models.CharField(max_length=220)
-    lat = models.DecimalField(max_digits=9, decimal_places=6)
-    long = models.DecimalField(max_digits=9, decimal_places=6)
+    lat = models.DecimalField(max_digits=11, decimal_places=8)
+    lng = models.DecimalField(max_digits=11, decimal_places=8)
+    details = models.IntegerField(default=None)
 
 class Trip(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trips')

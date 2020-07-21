@@ -1,0 +1,9 @@
+.MapContainer {
+  height: 90vh;
+  width: 100vw;
+}
+
+.Map {
+  height: 100%;
+  width: 100%;
+}
