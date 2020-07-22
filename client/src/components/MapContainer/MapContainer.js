@@ -23,7 +23,7 @@ const MapContainer = props => {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={MAPBOX_URL}
         />
-        <MarkersContainer showModal={props.showModal} setShowModal={props.setShowModal} setModalContent={props.setModalContent}/>
+        <MarkersContainer showModal={props.showModal} setShowModal={props.setShowModal} setModalContent={props.setModalContent} username={props.username}/>
       </Map>
     </div>
   )

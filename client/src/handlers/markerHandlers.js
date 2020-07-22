@@ -1,5 +1,12 @@
-export const getMarkers = () => {
-  return fetch('http://localhost:8000/app/markers')
+export const getMarkers = user => {
+  return fetch('http://localhost:8000/app/markers', {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${localStorage.getItem('token')}`
+    },
+    method: "POST",
+    body: JSON.stringify(user)
+  })
     .then(res => res.json())
 }
 

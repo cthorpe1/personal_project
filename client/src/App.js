@@ -18,7 +18,7 @@ function App() {
     if (loggedIn) {
       fetch('http://localhost:8000/app/current_user', {
         headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
+          'Authorization': `JWT ${localStorage.getItem('token')}`
         }
       })
         .then(res => res.json())
@@ -58,8 +58,9 @@ function App() {
         setShowModal={setShowModal} setModalContent={setModalContent} username={username}
       />
       {form}
-      {loggedIn ? <MapContainer showModal={showModal} setShowModal={setShowModal} setModalContent={setModalContent}/> 
-                : <h1>Please Log In...</h1>}
+      {loggedIn 
+      ? <MapContainer showModal={showModal} setShowModal={setShowModal} setModalContent={setModalContent} username={username} /> 
+      : <h1>Please Log In...</h1>}
     </div>
   );
 }

@@ -68,3 +68,36 @@ class MarkerSerializer(object):
             'details': self.body.details
         }
         return detail_object
+
+#-------- Trips -------- #
+class TripSerializer(object):
+    def __init__(self, body):
+        self.body = body
+
+    @property
+    def all_trips(self):
+        output = {'trips': []}
+
+        for trip in self.body:
+            trip_details = {
+                'id':trip.id,
+                'name': trip.name,
+                'start_date': trip.start_date,
+                'end_date': trip.end_date,
+                'description': trip.description
+                
+            }
+            output['trips'].append(trip_details)
+
+        return output
+
+    @property
+    def trip_detail(self):
+        detail_object = {
+            'id':self.body.id,
+            'name': self.body.name,
+            'start_date': self.body.start_date,
+            'end_date': self.body.end_date,
+            'description': self.body.description
+        }
+        return detail_object

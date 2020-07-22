@@ -5,9 +5,9 @@ from rest_framework import permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken, MarkerSerializer
+from .serializers import UserSerializer, UserSerializerWithToken, MarkerSerializer, TripSerializer
 from .forms import MarkerForm
-from .models import Marker
+from .models import Marker, Trip
 import json
 
 #----Auth Views------#
@@ -36,8 +36,11 @@ class UserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #----Marker Views------#
+@csrf_exempt
 def marker_list(request):
-    markers = Marker.objects.all()
+    data = json.load(request)
+    user = User.objects.get(username=data['username'])
+    markers = Marker.objects.filter(user=user.id)
     serialized_markers = MarkerSerializer(markers).all_markers
     return JsonResponse(data=serialized_markers, status=200)
 
@@ -80,3 +83,16 @@ def delete_marker(request, marker_id):
         marker = Marker.objects.get(id=marker_id)
         marker.delete()
     return JsonResponse(data={'status': 'Successfully deleted marker.'}, status=200)
+
+#----Trip Views------#
+@csrf_exempt
+def trip_list(request):
+    data = json.load(request)
+    user = User.objects.get(username=data['username'])
+    marker = Marker.objects.get(name=data['marker'])
+    trips = Trip.objects.filter(user=user.id, marker=marker.id)
+    if len(trips):
+        serialized_trips = TripSerializer(trips).all_trips
+        return JsonResponse(data=serialized_trips, status=200)
+    else:
+        return JsonResponse(data={'trips': 'none'}, status=200)

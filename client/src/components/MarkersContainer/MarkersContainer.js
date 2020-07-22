@@ -8,19 +8,25 @@ const MarkersContainer = props => {
   const [markersData, setMarkersData] = useState([])
 
   useEffect(() => {
-    getMarkers()
+    if(props.username !== '') {
+      getMarkers({'username': props.username})
       .then(data => {
         setMarkersData(data.markers);
       })
-  },[props.showModal]);
+    }
+  },[props.showModal, props.username]);
 
   const handleMarkerClick = marker => {
+    let tripFilters = {
+      'username': props.username,
+      'marker': marker.name
+    }
     let countryInfo = countries[marker.details];
     console.log(countryInfo);
     props.setModalContent({
       'title': `${marker.name}`,
       'body': `This is the marker detail modal for ${marker.name}`,
-      'component': <MarkerDetail details={countryInfo}/>
+      'component': <MarkerDetail details={countryInfo} filters={tripFilters}/>
     })
     props.setShowModal(true);
   };
