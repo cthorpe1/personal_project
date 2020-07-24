@@ -38,7 +38,7 @@ const MarkerDetail = props => {
           </div>
         </Collapse>
       </div>
-      {tripInfo !== null ? <Trip details={tripInfo} /> : null}
+      {tripInfo !== null ? <Trip details={tripInfo} username={props.filters.username} /> : null}
     </>
   )
 };

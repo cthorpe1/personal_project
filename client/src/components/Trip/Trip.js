@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {Collapse} from 'react-bootstrap';
+import TripPhotosContainer from '../TripPhotosContainer/TripPhotosContainer';
+
 import styles from './Trip.module.css';
 
 const Trip = props => {
@@ -13,6 +15,7 @@ const Trip = props => {
           <p>Starts: {new Date(props.details.start_date).toLocaleDateString()}</p>
           <p>Ends: {new Date(props.details.end_date).toLocaleDateString()}</p>
           <p>Details: {props.details.description}</p>
+          <TripPhotosContainer tripName={props.details.name} username={props.username} />
         </div>
       </Collapse>
     </div>

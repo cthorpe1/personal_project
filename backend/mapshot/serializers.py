@@ -101,3 +101,33 @@ class TripSerializer(object):
             'description': self.body.description
         }
         return detail_object
+
+#-------- Photos -------- #
+class PhotoSerializer(object):
+    def __init__(self, body):
+        self.body = body
+
+    @property
+    def all_photos(self):
+        output = {'photos': []}
+
+        for photo in self.body:
+            photo_details = {
+                'id':photo.id,
+                'trip': photo.trip.id,
+                'user': photo.user.id,
+                'url': photo.url, 
+            }
+            output['photos'].append(photo_details)
+
+        return output
+
+    @property
+    def photo_detail(self):
+        detail_object = {
+                'id':self.body.id,
+                'trip': self.body.trip.id,
+                'user': self.body.user.id,
+                'url': self.body.url, 
+            }
+        return detail_object

@@ -25,4 +25,4 @@ class Trip(models.Model):
 class Photo(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, related_name='photos')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='photos')
-    url = models.URLField()
+    url = models.CharField(max_length=220, default=None)

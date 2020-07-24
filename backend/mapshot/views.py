@@ -5,9 +5,9 @@ from rest_framework import permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken, MarkerSerializer, TripSerializer
-from .forms import MarkerForm
-from .models import Marker, Trip
+from .serializers import UserSerializer, UserSerializerWithToken, MarkerSerializer, TripSerializer, PhotoSerializer
+from .forms import MarkerForm, PhotoForm
+from .models import Marker, Trip, Photo
 import json
 
 #----Auth Views------#
@@ -96,3 +96,32 @@ def trip_list(request):
         return JsonResponse(data=serialized_trips, status=200)
     else:
         return JsonResponse(data={'trips': 'none'}, status=200)
+
+#----Photo Views------#
+@csrf_exempt
+def photo_list(request):
+    data = json.load(request)
+    user = User.objects.get(username=data['username'])
+    trip = Trip.objects.get(name=data['tripName'])
+    photos = Photo.objects.filter(user=user.id, trip=trip.id)
+    if len(photos):
+        serialized_photos = PhotoSerializer(photos).all_photos
+        return JsonResponse(data=serialized_photos, status=200)
+    else:
+        return JsonResponse(data={'photos': 'none'}, status=200)
+
+@csrf_exempt
+def new_photo(request):
+    if request.method == "POST":
+        data = json.load(request)
+        user = User.objects.get(username=data['username'])
+        trip = Trip.objects.get(name=data['tripName'])
+        data['user'] = user.id
+        data['trip'] = trip.id
+        form = PhotoForm(data)
+        if form.is_valid():
+            photo = form.save(commit=True)
+            serialized_photo = PhotoSerializer(photo).photo_detail
+            return JsonResponse(data=serialized_photo, status=200)
+        else:
+            print(form.errors)

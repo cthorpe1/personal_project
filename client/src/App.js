@@ -15,6 +15,7 @@ function App() {
 
   // Set JWT
   useEffect(() => {
+    localStorage.removeItem('token');
     if (loggedIn) {
       fetch('http://localhost:8000/app/current_user', {
         headers: {

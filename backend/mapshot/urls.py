@@ -16,4 +16,8 @@ urlpatterns = [
     #Trip Routes
     path('trips', views.trip_list, name='trip_list'),
 
+    #Photo Routes
+    path('photos', views.photo_list, name='photo_list'),
+    path('photos/new', views.new_photo, name='new_photo'),
+
 ]
