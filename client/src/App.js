@@ -1,10 +1,11 @@
 import React, { useState,useEffect } from 'react';
-import Nav from './components/Nav/Nav';
+import AppNav from './components/AppNav/AppNav';
 import LoginForm from './components/Forms/LoginForm/LoginForm';
 import SignupForm from './components/Forms/SignupForm/SignupForm';
 import {handleLogin, handleSignup, handleLogout} from './handlers/authHandlers';
 import MapContainer from './components/MapContainer/MapContainer';
 import ModalContainer from './components/ModalContainer/ModalContainer';
+import SplashScreen from './components/SplashScreen/SplashScreen';
 
 function App() {
   const [displayedForm, setDisplayedForm] = useState('');
@@ -53,15 +54,15 @@ function App() {
         modalContent={modalContent} 
         setModalContent={setModalContent} 
       />
-      <Nav 
+      <AppNav 
         loggedIn={loggedIn} displayForm={displayForm} 
         handleLogout={handleLogout} setters={[setLoggedIn,setUsername]} 
         setShowModal={setShowModal} setModalContent={setModalContent} username={username}
       />
-      {form}
       {loggedIn 
       ? <MapContainer showModal={showModal} setShowModal={setShowModal} setModalContent={setModalContent} username={username} /> 
-      : <h1>Please Log In...</h1>}
+      : <SplashScreen form={form}/>}
+      {/* {form} */}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
+import {Container, Carousel, Image} from 'react-bootstrap';
 import styles from './PhotoList.module.css';
 
 const PhotoList = props => {
@@ -7,26 +8,29 @@ const PhotoList = props => {
   const [urls, setUrls] = useState([]);
 
   useEffect(() => {
-    for (let i = 0; i < props.photos.length; i++) {
-      let currentPhoto = props.photos[i];
-      let imageRef = storageRef.child(currentPhoto.url);
+    let links = [];
+    props.photos.map(photo => {
+      let imageRef = storageRef.child(photo.url);
       imageRef.getDownloadURL()
         .then(url => {
-          setUrls([
-            ...urls,
-            url
-          ]);
+          links.push(url);
         })
         .catch(err => {
           console.log(err);
         });
-    }
+    })
+    setUrls(links);
   }, [props.photos])
+  
   return (
-    <div className={styles.Gallery}>
-      {urls.map((url,index) => {
-        return <div key={index} className={styles.ImgContainer}><img src={url} className={styles.Image}/></div>
+    <div>
+      <Container>
+        <Carousel className={styles.Gallery} controls={true} interval={null}>
+        {urls.map((url,index) => {
+        return <Carousel.Item key={index} className={styles.ImgContainer}><Image src={url} className={styles.Image}/></Carousel.Item>
       })}
+        </Carousel>
+      </Container>
     </div>
   )
 };

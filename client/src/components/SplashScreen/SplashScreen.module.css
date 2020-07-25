@@ -1,0 +1,23 @@
+.Jumbotron {
+  height: 80vh;
+  width: 95%;
+  margin: 5vh auto;
+  position: relative;
+}
+
+.BackgroundImage {
+  height: 575px;
+  width: auto;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../assets/splash.jpg");
+  background-size: cover;
+}
+
+.SplashContent {
+  position: absolute;
+  top: 24%;
+  left: 18%;
+  color: white;
+  font-size: 1.6em;
+  width: 60%;
+}

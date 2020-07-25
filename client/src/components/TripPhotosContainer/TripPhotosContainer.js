@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
-import {Form, Button} from 'react-bootstrap';
+import {Form, Button, Row,Col, Container} from 'react-bootstrap';
 import PhotoList from './PhotoList/PhotoList';
 import {getPhotos, addPhotoRef} from '../../handlers/photoHandlers';
 
@@ -47,12 +47,20 @@ const TripPhotosContainer = props => {
 
   return (
     <div>
-      <p>Photos:</p>
+      <Container>
+        <Row>
+          <Col><p><strong>Upload Photos:</strong></p></Col>
+        </Row>
+        <Row className="mb-5">
+        <Col>
+            <Form onSubmit={uploadHandler} inline>
+              <Form.File id='photo-upload' onChange={fileSelectHandler}/>
+              <Button type="submit" disabled={file.selected === null ? true : false}>Upload</Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
       {photos.length && <PhotoList photos={photos} />}
-      <Form onSubmit={uploadHandler}>
-        <Form.File id='photo-upload' label='Upload New Photo' onChange={fileSelectHandler}/>
-        <Button type="submit">Upload</Button>
-      </Form>
     </div>
   )
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import { Form } from 'react-bootstrap';
 
 const LoginForm = props => {
   const [fields, setFields] = useState({
@@ -17,10 +18,14 @@ const LoginForm = props => {
   return (
     <form onSubmit={e => props.handleLogin(e, fields, props.setters)}>
       <h4>Log In</h4>
-      <label htmlFor="username">Username</label>
-      <input type="text" name="username" value={fields.username} onChange={handleChange} />
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password" value={fields.password} onChange={handleChange} />
+      <Form.Group>
+        <label htmlFor="username">Username</label>
+        <Form.Control type="text" name="username" value={fields.username} onChange={handleChange} />
+      </Form.Group>
+      <Form.Group>
+        <label htmlFor="password">Password</label>
+        <Form.Control type="password" name="password" value={fields.password} onChange={handleChange} />
+      </Form.Group>
       <Button type="submit">Log In</Button>
     </form>
   )
