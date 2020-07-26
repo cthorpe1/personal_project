@@ -31,3 +31,12 @@ export const addMarker = markerObject => {
     body: JSON.stringify(markerObject)
   })
 }
+
+export const deleteMarker = (id) => {
+  return fetch(`http://localhost:8000/app/markers/${id}/delete`, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+  })
+}

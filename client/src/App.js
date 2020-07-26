@@ -9,7 +9,8 @@ import SplashScreen from './components/SplashScreen/SplashScreen';
 
 function App() {
   const [displayedForm, setDisplayedForm] = useState('');
-  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  // localStorage.getItem('token') ? true : false
   const [username, setUsername] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(null);
@@ -62,7 +63,6 @@ function App() {
       {loggedIn 
       ? <MapContainer showModal={showModal} setShowModal={setShowModal} setModalContent={setModalContent} username={username} /> 
       : <SplashScreen form={form}/>}
-      {/* {form} */}
     </div>
   );
 }

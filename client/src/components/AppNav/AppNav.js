@@ -21,8 +21,8 @@ const AppNav = props => {
 
   const loggedInLinks = (
     <Nav>
-      <Nav.Link><a onClick={handleAddMarkerClick}>Add New Marker</a></Nav.Link>
-      <Nav.Link><a onClick={e => props.handleLogout(props.setters)}>Logout</a></Nav.Link>
+      <Nav.Link onClick={handleAddMarkerClick}>Add New Marker</Nav.Link>
+      <Nav.Link onClick={e => props.handleLogout(props.setters)}>Logout</Nav.Link>
     </Nav>
   )
   return(

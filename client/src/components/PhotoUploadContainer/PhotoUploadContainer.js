@@ -1,27 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import {Form, Button, Row,Col, Container} from 'react-bootstrap';
-import PhotoList from './PhotoList/PhotoList';
 import {getPhotos, addPhotoRef} from '../../handlers/photoHandlers';
 
 const TripPhotosContainer = props => {
   const [file, setFile] = useState({
     selected: null
   });
-  const [photos, setPhotos] = useState([]);
   const storageRef = firebase.storage().ref();
-  let imageRef;
-
-  useEffect(() => {
-    let filters = {
-      username: props.username,
-      tripName: props.tripName
-    }
-    getPhotos(filters)
-      .then(data => {
-        setPhotos(data.photos);
-      })
-  }, [])
+  let imageRef = null;
+  
   const fileSelectHandler = e => {
     let files = e.target.files;
     setFile({
@@ -40,7 +28,7 @@ const TripPhotosContainer = props => {
       }
       addPhotoRef(photoObj)
         .then(data => {
-          console.log(data);
+          props.downloadPhotos();
         })
     })
   }
@@ -60,7 +48,6 @@ const TripPhotosContainer = props => {
           </Col>
         </Row>
       </Container>
-      {photos.length && <PhotoList photos={photos} />}
     </div>
   )
 };

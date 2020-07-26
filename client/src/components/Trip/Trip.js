@@ -1,11 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Collapse, Card, Container, Row, Col} from 'react-bootstrap';
-import TripPhotosContainer from '../TripPhotosContainer/TripPhotosContainer';
+import PhotoUploadContainer from '../PhotoUploadContainer/PhotoUploadContainer';
+import {getPhotos} from '../../handlers/photoHandlers';
+import firebase from 'firebase';
+import PhotoList from '../PhotoUploadContainer/PhotoList/PhotoList';
 
 const Trip = props => {
   const [detailsOpen, setDetailsOpen] = useState(true);
+  const [photos, setPhotos] = useState();
+  const storageRef = firebase.storage().ref();
 
-  return (
+  const downloadPhotos = async () => {
+    let filters = {
+      username: props.username,
+      tripName: props.details.name
+    }
+    let links = [];
+    let photosFromDb = await getPhotos(filters);
+    if (photosFromDb.photos !== 'none') {
+      const promises = photosFromDb.photos.map(async photo => {
+        let imageRef = storageRef.child(photo.url);
+        let url = await imageRef.getDownloadURL();
+
+        return url;
+      })
+      links = await Promise.all(promises);
+      setPhotos(links);
+    }
+  }
+
+  useEffect(() => {
+    downloadPhotos();
+  }, [])
+
+  return ( 
       <Card className="m-2">
         <Card.Header onClick={() => setDetailsOpen(!detailsOpen)} aria-controls="trip-details" aria-expanded={detailsOpen}>{props.details.name}</Card.Header>
         <Card.Body>
@@ -22,7 +50,8 @@ const Trip = props => {
                 <Col><Card.Text><strong>Details: </strong>{props.details.description}</Card.Text></Col>
               </Row>
             </Container>
-            <TripPhotosContainer tripName={props.details.name} username={props.username} />
+            <PhotoUploadContainer tripName={props.details.name} username={props.username} downloadPhotos={downloadPhotos}/>
+            {photos && <PhotoList photos={photos} />}
           </div>
         </Collapse>
         </Card.Body>

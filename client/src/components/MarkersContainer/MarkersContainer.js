@@ -23,6 +23,7 @@ const MarkersContainer = props => {
     }
     let countryInfo = countries[marker.details];
     props.setModalContent({
+      'id': marker.id,
       'title': `${marker.name}`,
       'body': `This is the marker detail modal for ${marker.name}`,
       'component': <MarkerDetail details={countryInfo} filters={tripFilters}/>

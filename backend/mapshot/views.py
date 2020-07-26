@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import UserSerializer, UserSerializerWithToken, MarkerSerializer, TripSerializer, PhotoSerializer
-from .forms import MarkerForm, PhotoForm
+from .forms import MarkerForm, PhotoForm, TripForm
 from .models import Marker, Trip, Photo
 import json
 
@@ -44,13 +44,6 @@ def marker_list(request):
     serialized_markers = MarkerSerializer(markers).all_markers
     return JsonResponse(data=serialized_markers, status=200)
 
-
-def marker_detail(request, marker_id):
-    marker = Marker.objects.get(id=marker_id)
-    if isinstance(marker, marker):
-        serialized_marker = MarkerSerializer(marker).marker_detail
-        return JsonResponse(data=serialized_marker, status=200)
-
 @csrf_exempt
 def new_marker(request):
     if request.method == "POST":
@@ -64,17 +57,6 @@ def new_marker(request):
             return JsonResponse(data=serialized_marker, status=200)
         else:
             print(form.errors)
-
-@csrf_exempt
-def edit_marker(request, marker_id):
-    marker = Marker.objects.get(id=marker_id)
-    if request.method == "POST":
-        data = json.load(request)
-        form = MarkerForm(data, instance=marker)
-        if form.is_valid():
-            marker = form.save(commit=True)
-            serialized_marker = MarkerSerializer(marker).marker_detail
-            return JsonResponse(data=serialized_marker, status=200)
 
 
 @csrf_exempt
@@ -97,6 +79,22 @@ def trip_list(request):
     else:
         return JsonResponse(data={'trips': 'none'}, status=200)
 
+@csrf_exempt
+def new_trip(request):
+    if request.method == "POST":
+        data = json.load(request)
+        user = User.objects.get(username=data['username'])
+        marker = Marker.objects.get(name=data['marker'])
+        data['user'] = user.id
+        data['marker'] = marker.id
+        form = TripForm(data)
+        if form.is_valid():
+            trip = form.save(commit=True)
+            serialized_trip = TripSerializer(trip).trip_detail
+            return JsonResponse(data=serialized_trip, status=200)
+        else:
+            print(form.errors)
+            
 #----Photo Views------#
 @csrf_exempt
 def photo_list(request):

@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./SplashScreen.module.css";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 const SplashScreen = props => {
   return (

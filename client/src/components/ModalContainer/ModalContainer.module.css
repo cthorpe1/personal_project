@@ -1,4 +1,26 @@
 .ModalContainer {
-  width: 90% !important;
+  width: 95% !important;
   max-width: none !important;
+}
+
+.TitleContainer {
+  display: flex;
+}
+
+.TrashContainer {
+  margin-left: 15px;
+}
+
+.Trash {
+  cursor:pointer;
+}
+
+.Hidden {
+  display: none;
+}
+
+.AddTripButton {
+  display: inline;
+  margin-left: 74%;
+  cursor: pointer;
 }

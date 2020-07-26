@@ -81,6 +81,8 @@ class TripSerializer(object):
         for trip in self.body:
             trip_details = {
                 'id':trip.id,
+                'user': trip.user.id,
+                'marker': trip.marker.id,
                 'name': trip.name,
                 'start_date': trip.start_date,
                 'end_date': trip.end_date,
@@ -95,6 +97,8 @@ class TripSerializer(object):
     def trip_detail(self):
         detail_object = {
             'id':self.body.id,
+            'user': self.body.user.id,
+            'marker': self.body.marker.id,
             'name': self.body.name,
             'start_date': self.body.start_date,
             'end_date': self.body.end_date,
